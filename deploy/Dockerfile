@@ -27,7 +27,8 @@ ARG PHP_ENV=development
 #    && docker-php-ext-enable redis swoole xdebug
 
 RUN apt-get update \
+    && apt-get install -y procps \
     && apt-get install -y nginx
 COPY nginx/nginx.conf /etc/nginx/
 COPY nginx/www.conf /etc/nginx/conf.d/
-RUN  nginx -c /etc/nginx/nginx.conf && nginx -s reload
+RUN  /usr/sbin/nginx -c /etc/nginx/nginx.conf && /usr/sbin/nginx -s reload
