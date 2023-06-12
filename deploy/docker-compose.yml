@@ -8,7 +8,6 @@ services:
       - 8082:8080
     volumes:
       - ${WORK_DIR}:/var/www
-      - ./conf.d:/etc/nginx/conf.d
     working_dir: /var/www
 #    user: "${UID}:${GID}"
     restart: always
