@@ -1,0 +1,19 @@
+version: "3"
+services:
+  lnmp:
+    build: .
+    container_name: lnmp
+    ports:
+      - 8000:80
+      - 8080:8080
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    user: "${UID}:${GID}"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+#    command: [ "/usr/local/bin/php", "/var/www/my-project/la8/artisan", "octane:start", "--watch", "--host=0.0.0.0" ]
