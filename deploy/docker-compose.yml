@@ -1,13 +1,13 @@
 version: "3"
 services:
   lnmp:
-    build: .
+    build: ..
     container_name: lnmp
     ports:
       - 8000:80
       - 8080:8080
     volumes:
-      - ./:/var/www
+      - ${WORK_IDR}:/var/www
     working_dir: /var/www
     user: "${UID}:${GID}"
     restart: always
