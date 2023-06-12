@@ -1,18 +1,12 @@
 FROM php:8.2-fpm-bullseye
 
-COPY nginx/nginx.conf /etc/nginx/
-COPY nginx/www.conf /etc/nginx/conf.d/
-
 WORKDIR /var/www
 
 # development / production
 ARG PHP_ENV=development
 
 # development / production
-RUN apt-get update \
-    && apt-get install -y nginx
-#    && apt-get install -y nginx \
-#    && nginx -c /etc/nginx/nginx.conf && nginx -s reload \
+#RUN apt-get update \
 #    && apt-get install -y vim \
 #    && apt-get install -y git \
 #    && apt-get install -y zsh \
@@ -31,3 +25,9 @@ RUN apt-get update \
 #    && pecl install swoole \
 #    && pecl install xdebug \
 #    && docker-php-ext-enable redis swoole xdebug
+
+RUN apt-get update \
+    && apt-get install -y nginx
+COPY nginx/nginx.conf /etc/nginx/
+COPY nginx/www.conf /etc/nginx/conf.d/
+RUN  nginx -c /etc/nginx/nginx.conf && nginx -s reload
