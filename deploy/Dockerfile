@@ -29,6 +29,9 @@ ARG PHP_ENV=development
 RUN apt-get update \
     && apt-get install -y procps \
     && apt-get install -y nginx
+
 COPY nginx/nginx.conf /etc/nginx/
 COPY nginx/www.conf /etc/nginx/conf.d/
-RUN  /usr/sbin/nginx -c /etc/nginx/nginx.conf && /usr/sbin/nginx -s reload
+COPY nginx/startup.sh /opt/nginx_startup.sh
+
+CMD ["/bin/bash", "/opt/nginx_startup.sh"]
