@@ -1,37 +1,28 @@
-FROM php:8.2-fpm-bullseye
+# 使用 Debian Bullseye 镜像作为基础
+FROM debian:bullseye
 
-WORKDIR /var/www
+# 更新软件包列表并安装 Nginx、PHP 和相关扩展
+RUN apt-get update && apt-get install -y nginx php7.4-fpm php7.4-mysql php7.4-curl php7.4-gd php7.4-intl php7.4-mbstring php7.4-xml php7.4-zip
 
-# development / production
-ARG PHP_ENV=development
+# 清理 apt 缓存和临时文件
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# development / production
-#RUN apt-get update \
-#    && apt-get install -y vim \
-#    && apt-get install -y git \
-#    && apt-get install -y zsh \
-#    && git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
-#    && cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc \
-#    && chsh -s /bin/zsh \
-#    && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions \
-#    && apt-get install -y npm \
-#    && npm install --save-dev chokidar \
-#    && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer \
-#    && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
-#    && apt-get install -y libwebp-dev libjpeg-dev libpng-dev libfreetype6-dev libzip-dev\
-#    && cp /usr/local/etc/php/php.ini-$PHP_ENV /usr/local/etc/php/php.ini \
-#    && docker-php-ext-install bcmath pdo_mysql gd pcntl zip\
-#    && pecl install redis \
-#    && pecl install swoole \
-#    && pecl install xdebug \
-#    && docker-php-ext-enable redis swoole xdebug
+# 将本地的 Nginx 配置文件复制到容器中
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/www.conf /etc/nginx/conf.d/www.conf
 
-RUN apt-get update \
-    && apt-get install -y procps \
-    && apt-get install -y nginx
+# 将本地的 PHP 配置文件复制到容器中
+COPY php/php.ini /etc/php/7.4/fpm/php.ini
 
-COPY nginx/nginx.conf /etc/nginx/
-COPY nginx/www.conf /etc/nginx/conf.d/
-COPY nginx/startup.sh /opt/nginx_startup.sh
+# 将运行 PHP + Nginx 服务的脚本复制到容器中
+COPY startup.sh /opt/startup.sh
 
-CMD ["/bin/bash", "/opt/nginx_startup.sh"]
+# 赋予脚本可执行权限
+RUN chmod +x /opt/startup.sh
+
+# 将容器的 80 端口暴露给外部访问
+EXPOSE 80
+EXPOSE 8000
+
+# 使用脚本启动 PHP + Nginx 服务
+CMD ["/bin/bash", "/opt/startup.sh"]
