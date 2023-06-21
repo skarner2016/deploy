@@ -18,3 +18,7 @@ services:
         max-size: "100m"
         max-file: "10"
 #    command: [ "/usr/local/bin/php", "/var/www/my-project/la8/artisan", "octane:start", "--watch", "--host=0.0.0.0" ]
+  debian:
+    image: debian:bullseye
+    container_name: debian
+    tty: true
