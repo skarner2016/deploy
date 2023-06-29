@@ -1,7 +1,12 @@
 version: "3"
 services:
   lnmp:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - UID=501
+        - GID=20
     container_name: lnmp
     ports:
       - 8081:80
@@ -17,7 +22,7 @@ services:
       options:
         max-size: "100m"
         max-file: "10"
-#    command: [ "/usr/local/bin/php", "/var/www/my-project/la8/artisan", "octane:start", "--watch", "--host=0.0.0.0" ]
+
   debian:
     image: debian:bullseye
     container_name: debian
