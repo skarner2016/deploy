@@ -14,7 +14,7 @@ ENV GROUP=$GROUP
 RUN groupadd -g ${GID} ${GROUP} && \
     useradd -u ${UID} -g ${GID} -s /bin/bash -m ${USER}
 
-RUN mkdir -p /var/www && chown -R ${USER}:${GROUP} /var/www && chown -R ${USER}:${GROUP} /var/log/nginx
+RUN mkdir -p /var/www && chown -R ${USER}:${GROUP} /var/www
 
 # 切换到指定用户
 #USER ${USER}
@@ -35,6 +35,8 @@ COPY nginx/www.conf /etc/nginx/conf.d/www.conf
 
 # 将本地的 PHP 配置文件复制到容器中
 #COPY php/php.ini /etc/php/7.4/fpm/php.ini
+
+RUN chown -R ${USER}:${GROUP} /var/log/nginx
 
 # 将运行 PHP + Nginx 服务的脚本复制到容器中
 COPY startup.sh /opt/startup.sh
