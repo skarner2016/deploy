@@ -1,6 +1,22 @@
 # 使用 Debian Bullseye 镜像作为基础
 FROM debian:bullseye
 
+ARG UID
+ARG GID
+ARG USER
+ARG GROUP
+
+ENV UID=$UID
+ENV GID=$GID
+ENV USER=$USER
+ENV GROUP=$GROUP
+
+RUN groupadd -g ${GID} ${GROUP} && \
+    useradd -u ${UID} -g ${GID} -s /bin/bash -m ${USER}
+
+# 切换到指定用户
+USER ${USER}
+
 # 更新软件包列表并安装 Nginx、PHP 和相关扩展
 RUN apt-get update && apt-get install -y lsb-release apt-transport-https ca-certificates wget nginx \
     && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \

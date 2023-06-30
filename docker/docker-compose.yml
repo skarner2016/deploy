@@ -5,8 +5,10 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - UID=501
-        - GID=20
+        - UID=1000
+        - GID=1000
+        - USER=lnmp-user
+        - GROUP=lnmp-group
     container_name: lnmp
     ports:
       - 8081:80
@@ -14,7 +16,7 @@ services:
     volumes:
       - ${WORK_DIR}:/var/www
     working_dir: /var/www
-#    user: "${UID}:${GID}"
+    user: "${UID}:${GID}"
     restart: always
     tty: true
     logging:
