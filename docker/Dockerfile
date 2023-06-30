@@ -14,8 +14,10 @@ ENV GROUP=$GROUP
 RUN groupadd -g ${GID} ${GROUP} && \
     useradd -u ${UID} -g ${GID} -s /bin/bash -m ${USER}
 
+RUN mkdir -p /var/www && chown -R ${USER}:${GROUP} /var/www
+
 # 切换到指定用户
-USER ${USER}
+#USER ${USER}
 
 # 更新软件包列表并安装 Nginx、PHP 和相关扩展
 RUN apt-get update && apt-get install -y lsb-release apt-transport-https ca-certificates wget nginx \
