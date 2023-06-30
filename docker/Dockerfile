@@ -37,8 +37,8 @@ COPY nginx/www.conf /etc/nginx/conf.d/www.conf
 #COPY php/php.ini /etc/php/7.4/fpm/php.ini
 
 RUN chown -R ${USER}:${GROUP} /var/log/nginx \
-  && chown -R ${USER}:${GROUP} /run/php \
-  && chown -R ${USER}:${GROUP} /var/lib/nginx
+  && mkdir -p /run/php && chown -R ${USER}:${GROUP} /run/php \
+  && mkdir -p /var/lib/nginx && chown -R ${USER}:${GROUP} /var/lib/nginx
 # 将运行 PHP + Nginx 服务的脚本复制到容器中
 COPY startup.sh /opt/startup.sh
 
