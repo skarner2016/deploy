@@ -14,7 +14,8 @@ ENV GROUP=$GROUP
 RUN groupadd -g ${GID} ${GROUP} && \
     useradd -u ${UID} -g ${GID} -s /bin/bash -m ${USER}
 
-RUN mkdir -p /var/www && chown -R ${USER}:${GROUP} /var/www
+RUN mkdir -p /var/www && chown -R ${USER}:${GROUP} /var/www \
+    chown -R ${USER}:${GROUP} /var/log
 
 # 切换到指定用户
 #USER ${USER}
