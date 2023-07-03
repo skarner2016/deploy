@@ -1,0 +1,30 @@
+version: "3"
+services:
+  lnmp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - UID=${UID}
+        - GID=${GID}
+        - USER=${DEV_USER}
+        - GROUP=${DEV_GROUP}
+    container_name: lnmp
+    ports:
+      - 8081:80
+      - 8082:8000
+    volumes:
+      - ${WORK_DIR}:/var/www
+    working_dir: /var/www
+    restart: always
+    tty: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+networks:
+  docker_default:
+    external:
+      name: docker-default
