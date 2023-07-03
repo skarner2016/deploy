@@ -9,6 +9,7 @@ services:
         - GID=${GID}
         - USER=${DEV_USER}
         - GROUP=${DEV_GROUP}
+        - VERSION=${VERSION}
     container_name: lnmp
     ports:
       - 8081:80

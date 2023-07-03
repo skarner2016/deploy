@@ -5,11 +5,13 @@ ARG UID
 ARG GID
 ARG USER
 ARG GROUP
+ARG VERSION
 
 ENV UID=$UID
 ENV GID=$GID
 ENV USER=$USER
 ENV GROUP=$GROUP
+ENV VERSION=$VERSION
 
 RUN groupadd -g ${GID} ${GROUP} && \
     useradd -u ${UID} -g ${GID} -s /bin/bash -m ${USER}
@@ -24,7 +26,7 @@ RUN apt-get update && apt-get install -y lsb-release apt-transport-https ca-cert
     && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
     && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list \
     && apt-get update \
-    && apt-get install -y php8.2-fpm php8.2-mysql php8.2-curl php8.2-gd php8.2-intl php8.2-mbstring php8.2-xml php8.2-zip
+    && apt-get install -y php${VERSION}-fpm php${VERSION}-mysql php${VERSION}-curl php${VERSION}-gd php${VERSION}-intl php${VERSION}-mbstring php${VERSION}-xml php${VERSION}-zip
 
 # 清理 apt 缓存和临时文件
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
