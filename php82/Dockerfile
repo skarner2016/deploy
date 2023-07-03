@@ -34,6 +34,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # 将本地的 Nginx 配置文件复制到容器中
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/www.conf /etc/nginx/conf.d/www.conf
+RUN sed -i 's/unix:\/var\/run\/php\/php-fpm.sock/unix:\/var\/run\/php\/php${VERSION}-fpm.sock/g' /etc/nginx/conf.d/www.conf
 
 # 将本地的 PHP 配置文件复制到容器中
 #COPY php/php.ini /etc/php/7.4/fpm/php.ini
