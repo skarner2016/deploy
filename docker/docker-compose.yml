@@ -5,10 +5,10 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - UID=1000
-        - GID=1000
-        - USER=lnmp-user
-        - GROUP=lnmp-group
+        - UID=${UID}
+        - GID=${GID}
+        - USER=${DEV_USER}
+        - GROUP=${DEV_GROUP}
     container_name: lnmp
     ports:
       - 8081:80
@@ -16,7 +16,6 @@ services:
     volumes:
       - ${WORK_DIR}:/var/www
     working_dir: /var/www
-#    user: "${UID}:${GID}"
     restart: always
     tty: true
     logging:
@@ -24,8 +23,3 @@ services:
       options:
         max-size: "100m"
         max-file: "10"
-
-  debian:
-    image: debian:bullseye
-    container_name: debian
-    tty: true
