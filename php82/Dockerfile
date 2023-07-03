@@ -42,7 +42,7 @@ COPY nginx/www.conf /etc/nginx/conf.d/www.conf
 COPY startup.sh /opt/startup.sh
 
 RUN sed -i "s/unix:\/var\/run\/php\/php-fpm.sock/unix:\/var\/run\/php\/php${VERSION}-fpm.sock/g" /etc/nginx/conf.d/www.conf
-RUN sed -i "s/php${VERSION}-fpm/php-fpm/g" /opt/startup.sh
+RUN sed -i "s/php-fpm/php${VERSION}-fpm/g" /opt/startup.sh
 
 # 赋予脚本可执行权限
 RUN chmod +x /opt/startup.sh
