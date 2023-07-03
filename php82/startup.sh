@@ -1,3 +1,7 @@
 #!/bin/bash
-service php8.2-fpm start
+
+# start php-fpm
+service php-fpm start
+
+# start nginx
 nginx -g 'daemon off;'
