@@ -10,3 +10,8 @@ services:
       - ./conf:/workspace/conf
       - ./storage:/workspace/storage
     restart: always
+
+networks:
+  docker_default:
+    external:
+      name: docker-default
