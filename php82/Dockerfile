@@ -41,6 +41,7 @@ COPY nginx/www.conf /etc/nginx/conf.d/www.conf
 # 将运行 PHP + Nginx 服务的脚本复制到容器中
 COPY startup.sh /opt/startup.sh
 
+# config
 RUN sed -i "s/unix:\/var\/run\/php\/php-fpm.sock/unix:\/var\/run\/php\/php${VERSION}-fpm.sock/g" /etc/nginx/conf.d/www.conf
 RUN sed -i "s/php-fpm/php${VERSION}-fpm/g" /opt/startup.sh
 
